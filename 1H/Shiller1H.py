@@ -96,19 +96,20 @@ class Shill():
                     time.sleep(5)
                 except Exception as ex:
                     print(ex)
+                    print(ex.args)
                     time.sleep(10)
                     continue
             time.sleep(3600)
 
     def account(self):
         self.connection()
-        self.GetChannelInfo()
+        # self.GetChannelInfo()
         # self.join_channel()
-        # self.send_message()
+        self.send_message()
 
 
-id0 = Shill("11770907","7d820d4557af57f57ae3c5d40524ce80","5") # Telegram account info
-
+#id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551") # Telegram account info
+id0 = Shill("11770907","7d820d4557af57f57ae3c5d40524ce80","+8618826578873") #Account 1
 t1 = Thread(target=id0.account)
 
 t1.start()
