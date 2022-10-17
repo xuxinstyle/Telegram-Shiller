@@ -19,12 +19,15 @@ def group1():
     return channel_list
 
 
-# def group2():
-#     channel_list = ] #groups for account number 2
-#
-#     return channel_list
+def group2():
+    channel_list = excel_data['Username'].tolist()#groups for account number 2
 
+    return channel_list
 
+# 小迷妹
+def fetch_text1():
+    self = excel_data['Message'][1] # Message Here
+    return self
 # def group3():
 #     channel_list = ] #groups for account number 3
 #

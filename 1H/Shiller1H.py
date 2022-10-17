@@ -6,10 +6,13 @@ import time
 from telethon.errors import *
 from threading import *
 import asyncio
+from telethon.tl.functions.channels import InviteToChannelRequest
+
 
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
 from time import sleep
+
 offset = 0
 limit = 100
 all_participants = []
@@ -43,6 +46,39 @@ class Shill():
                 time.sleep(600)
                 continue
         print("参加所有频道.")
+    def GetParticipantsInfo(self, channel_id):
+
+        participants = self.client(GetParticipantsRequest(
+            channel_id, ChannelParticipantsSearch(''), offset, limit, 0 ))
+        if not participants.users:
+            print("not participants.users")
+        all_participants.extend(participants.users)
+        channelusers = []
+        for par in all_participants:
+            channelusers.append(par.username)
+
+        self.AddChatUse(self.GetMainChannelid(), channelusers)
+
+        for var in self.channel_list:
+            friend_info = self.client.get_entity(var)  # dialog.title为first_name
+            if type(friend_info) is not telethon.tl.types.User:
+                channel_id = friend_info.id
+                channel_title = friend_info.title
+                channel_username = friend_info.username
+                dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
+                                     "channel_username": channel_username}
+                print(channel_title, "这是一个频道", dict_channel_info)
+
+
+    def GetMainChannelid(self):
+        friend_info = self.client.get_entity("https://t.me/bingxueer66")
+        if type(friend_info) is not telethon.tl.types.User:
+            channel_id = friend_info.id
+            channel_title = friend_info.title
+            channel_username = friend_info.username
+            dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
+                                 "channel_username": channel_username}
+            return channel_id
 
     def GetChannelInfo(self):
         dialogs = self.client.get_dialogs()
@@ -54,6 +90,8 @@ class Shill():
                 channel_username = friend_info.username
                 dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
                                      "channel_username": channel_username}
+                self.GetParticipantsInfo(channel_id)
+
                 print(dialog.title, "这是一个频道", dict_channel_info)
             else:
                 if friend_info.bot is False:
@@ -71,19 +109,16 @@ class Shill():
                     dict_bot_info = {'bot_id': bot_id, 'bot_name': bot_name, 'is_bot': is_bot}
                     print(dialog.title, '这是一个机器人', dict_bot_info)
         # 打印群信息
-        print(self.client.get_entity("@hello")) # 可更换群组名
+
         my_channel = self.client.get_entity(dialogs.title)
         print(my_channel)
-    def GetParticipantsInfo(self):
-        participants = self.client(GetParticipantsRequest(
-            1387666944, ChannelParticipantsSearch(''), offset, limit, hash=0
+
+    def AddChatUse(self, channelid, userlist):
+        self.client(InviteToChannelRequest(
+            channel=channelid,  # 频道id
+            users=userlist,  # 列表格式的username
         ))
-        if not participants.users:
-            print("no find users");
-            return
-        all_participants.extend(participants.users)
-        for par in all_participants:
-            print(par)
+
 
     def send_message(self):
         while True:
@@ -93,19 +128,20 @@ class Shill():
                     self.client.send_message(entity, self.message)
                     print(f"{self.owner}. 帐号发了一条消息。 内容："+self.message + "to " + var)
                     print("________________________________________")
-                    time.sleep(5)
+                    time.sleep(10)
                 except Exception as ex:
                     print(ex)
                     print(ex.args)
                     time.sleep(10)
                     continue
-            time.sleep(3600)
+            time.sleep(4500)
 
     def account(self):
         self.connection()
-        # self.GetChannelInfo()
+        self.GetChannelInfo()
+        #self.GetParticipantsInfo()
         # self.join_channel()
-        self.send_message()
+        #self.send_message()
 
 
 #id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551") # Telegram account info
