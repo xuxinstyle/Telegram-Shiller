@@ -20,12 +20,13 @@ all_participants = []
 # https://www.jianshu.com/p/0f61dd28d969?utm_campaign=maleskine    这是中国的教程
 
 class Shill():
-    def __init__(self,T_id,T_hash,owner):
+    def __init__(self,T_id,T_hash,owner, time = 0):
             self.t_id = T_id
             self.t_hash = T_hash
             self.owner = owner
             self.channel_list = fetch_list()
             self.message = fetch_text()
+            self.pre_time = time
 
     def connection(self):
         loop = asyncio.new_event_loop()
@@ -122,6 +123,7 @@ class Shill():
 
     def send_message(self):
         while True:
+            time.sleep(self.pre_time)
             for var in self.channel_list:
                 try:
                     entity = self.client.get_entity(var)
