@@ -27,10 +27,11 @@ class Shill():
 
     def connection(self):
         print("" + str(self.t_id))
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        # loop = asyncio.new_event_loop()
+        # asyncio.set_event_loop(loop)
 
-        self.client = TelegramClient(self.owner, self.t_id, self.t_hash, proxy=(socks.SOCKS5, "127.0.0.1", 7890))
+        asyncio.set_event_loop(asyncio.SelectorEventLoop())
+        self.client = TelegramClient(self.owner, self.t_id, self.t_hash, proxy =(socks.SOCKS5, '127.0.0.1', 7890))
         self.client.start()
         print("已登录帐户")
 
