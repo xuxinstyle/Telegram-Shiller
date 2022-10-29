@@ -68,7 +68,7 @@ class Shill():
                     count = count + 1
                     print(f"{self.owner}.在 频道:" + str(var) + "  信息发送失败 ")
                     print("________________________________________")
-                    time.sleep(10)
+                    time.sleep(2)
                     if (count % 3) == 0 and (self.interval == 1):
                         time.sleep(300)
                         count = 0
@@ -82,9 +82,9 @@ class Shill():
         #self.join_channel()
         self.send_message()
 
-id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551",group0,fetch_text(), 1200) #Account 0
+id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551",group0,fetch_text(), 2400) #Account 0
 id1 = Shill("11770907","7d820d4557af57f57ae3c5d40524ce80","+8618826578873",group1,fetch_text(), 0) #Account 1
-id2 = Shill("27791531", "46a50576ec06eb952b322e03f88f0f40", "+8613691724231", group2, fetch_text1(), 2400)
+id2 = Shill("27791531", "46a50576ec06eb952b322e03f88f0f40", "+8613691724231", group2, fetch_text1(), 1200)
 id3 = Shill("22641341","9bb6137509065c3676a09599407aed2c","+8613923782526",group3,fetch_text2(), 600 ) #Account 3
 # id4 = Shill("","","4",group4) #Account 4
 
