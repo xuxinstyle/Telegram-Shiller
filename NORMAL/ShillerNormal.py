@@ -8,6 +8,12 @@ import socks
 import re
 import datetime
 
+from TkinterUi import tkinterUi
+
+tkinterUi = tkinterUi()
+tkinterUi.show()
+
+
 group0 = group0()
 group1 = group1()
 group2 = group2()
@@ -27,13 +33,13 @@ class Shill():
 
     def connection(self):
         print("" + str(self.t_id))
-        # loop = asyncio.new_event_loop()
+        loop = asyncio.new_event_loop()
         # asyncio.set_event_loop(loop)
 
         asyncio.set_event_loop(asyncio.SelectorEventLoop())
         self.client = TelegramClient(self.owner, self.t_id, self.t_hash, proxy =(socks.SOCKS5, '127.0.0.1', 7890))
         self.client.start()
-        print("已登录帐户")
+        print(f"已登录帐户 {self.owner} ")
 
     def join_channel(self):
         for var in self.channel_list:
@@ -96,9 +102,9 @@ t3 = Thread(target=id2.account)
 # t5 = Thread(target=id4.account)
 
 
-t1.start()
-t2.start()
-t3.start()
+#t1.start()
+#t2.start()
+#t3.start()
 #t4.start()
 # t5.start()
 
