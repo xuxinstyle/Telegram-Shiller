@@ -1,5 +1,5 @@
 from telethon import TelegramClient, functions, sync, events
-from Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
+from NORMAL.Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
 import time
 from telethon.errors import *
 from threading import *
@@ -8,10 +8,7 @@ import socks
 import re
 import datetime
 
-from TkinterUi import tkinterUi
 
-tkinterUi = tkinterUi()
-tkinterUi.show()
 
 
 group0 = group0()
@@ -32,7 +29,7 @@ class Shill():
         self.interval = interval
 
     def connection(self):
-        print("" + str(self.t_id))
+
         loop = asyncio.new_event_loop()
         # asyncio.set_event_loop(loop)
 
@@ -65,7 +62,7 @@ class Shill():
                     self.client.send_message(entity, self.message)
                     print(f"{self.owner}. 帐号发了一条消息。 内容：" + self.message + " to " + str(var))
                     print("________________________________________")
-                    time.sleep(1)
+                    time.sleep(0.5)
                     if (count % 3) == 0 and (self.interval == 1):
                         time.sleep(300)
                         count = 0
@@ -74,7 +71,7 @@ class Shill():
                     count = count + 1
                     print(f"{self.owner}.在 频道:" + str(var) + "  信息发送失败 ")
                     print("________________________________________")
-                    time.sleep(2)
+
                     if (count % 3) == 0 and (self.interval == 1):
                         time.sleep(300)
                         count = 0
@@ -102,9 +99,9 @@ t3 = Thread(target=id2.account)
 # t5 = Thread(target=id4.account)
 
 
-#t1.start()
-#t2.start()
-#t3.start()
+t1.start()
+t2.start()
+t3.start()
 #t4.start()
 # t5.start()
 
