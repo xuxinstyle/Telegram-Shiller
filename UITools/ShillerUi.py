@@ -1,5 +1,5 @@
 from telethon import TelegramClient, functions, sync, events
-from NORMAL.Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
+from Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
 import time
 from telethon.errors import *
 from threading import *
