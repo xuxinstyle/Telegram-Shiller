@@ -10,7 +10,13 @@ import datetime
 import tkinter
 import tkinter.messagebox
 
+import pyautogui
 
+import pyperclip
+import pandas
+import time
+
+import os
 
 
 class Shill():
@@ -61,7 +67,7 @@ class Shill():
                 self.client.send_message(entity, self.message)
                 print(f"{self.owner}. 帐号发了一条消息。 内容：" + self.message + " to " + str(var))
                 print("________________________________________")
-                time.sleep(0.5)
+                time.sleep(0)
                 if (count % 3) == 0 and (self.interval == 1):
                     time.sleep(1)
                     count = 0
@@ -87,6 +93,7 @@ class Shill():
         tkinter.messagebox.showinfo(title='tips', message='send message success!!!')
         self.disconnect()
         print("disconnect success !")
+
 
 
 

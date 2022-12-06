@@ -62,7 +62,7 @@ class Shill():
                     self.client.send_message(entity, self.message)
                     print(f"{self.owner}. 帐号发了一条消息。 内容：" + self.message + " to " + str(var))
                     print("________________________________________")
-                    time.sleep(0.5)
+
                     if (count % 3) == 0 and (self.interval == 1):
                         time.sleep(300)
                         count = 0

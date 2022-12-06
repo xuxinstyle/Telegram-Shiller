@@ -3,6 +3,7 @@ import tkinter.messagebox
 from ShillerUi import Shill
 from Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
 from threading import *
+import script
 
 class tkinterUi(object):
     def __init__(self):
@@ -51,6 +52,11 @@ class tkinterUi(object):
                 t1 = Thread(target=myShill.account)
                 t1.start()
 
+    def group_send_button(self):
+        t2 = Thread(target=script.group_send(self.e3.get(), self.e4.get()))
+        t2.start()
+
+
 
 
     # tkinter.messagebox.showinfo(title='tips', message='hello')  # 提示信息对话窗
@@ -63,53 +69,80 @@ class tkinterUi(object):
         # 设置标题
         self.main.title("telegram群发工具")
         # 设置大小（宽x高）
-        self.main.geometry("600x400")
-        frame1 = tkinter.Frame(self.main)
-        frame1.place(x=1, y=10, anchor='w', relx=0.2, rely=0.3)
-        frame1.pack(padx=1, pady=1, side='left')
+        self.main.geometry("600x500")
+        # frame1 = tkinter.Frame(self.main)
+        # frame1.place(x=1, y=10, anchor='w', relx=0.2, rely=0.3)
+        # frame1.pack(padx=1, pady=1, side='left')
+
+        #
+        # self.l = tkinter.Label(frame1, text='登录账号 api_id')
+        # self.l.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
+        # self.l.pack(ipadx=100, ipady=1)
+        #
+        # self.e = tkinter.Entry(frame1)
+        # self.e.place(x=50, y=10, anchor='w')
+        # self.e.pack(padx=10, pady=1)
+        #
+        # self.l1 = tkinter.Label(frame1, text='登录账号 api_hash')
+        # self.l1.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
+        # self.l1.pack(ipadx=100, ipady=1)
+        # self.e1 = tkinter.Entry(frame1)
+        # self.e1.place(x=50, y=10, anchor='w')
+        # self.e1.pack(padx=10, pady=1)
+        #
+        # self.l2 = tkinter.Label(frame1, text='登录账号电话')
+        # self.l2.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
+        # self.l2.pack(ipadx=100, ipady=1)
+        # self.e2 = tkinter.Entry(frame1)
+        # self.e2.place(x=50, y=10, anchor='w')
+        # self.e2.pack(padx=10, pady=1)
+        #
+        #
+        # self.b1 = tkinter.Button(frame1, padx=40, pady=2)
+        # self.b1.config(text='添加登录账号')
+        # self.b1.config(command=self.add_login_account)
+        # self.b1.place(x=1, y=1)
+        # self.b1.pack()
+
+        frame3 = tkinter.Frame(self.main)
+        frame3.place(x=1, y=10, anchor='w', relx=0.2, rely=0.3)
+        frame3.pack(padx=1, pady=1, side='left')
 
 
-        self.l = tkinter.Label(frame1, text='登录账号 api_id')
-        self.l.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
-        self.l.pack(ipadx=100, ipady=1)
 
-        self.e = tkinter.Entry(frame1)
-        self.e.place(x=50, y=10, anchor='w')
-        self.e.pack(padx=10, pady=1)
+        addr = tkinter.StringVar(value='D:\Telegram Desktop\Telegram.exe')
+        self.e3 = tkinter.Entry(frame3, textvariable=addr, width=50)
+        self.e3.place(x=100, y=10, anchor='w')
+        self.e3.pack(padx=10, pady=1)
 
-        self.l1 = tkinter.Label(frame1, text='登录账号 api_hash')
-        self.l1.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
-        self.l1.pack(ipadx=100, ipady=1)
-        self.e1 = tkinter.Entry(frame1)
-        self.e1.place(x=50, y=10, anchor='w')
-        self.e1.pack(padx=10, pady=1)
+        addr1 = tkinter.StringVar(value="南山 西丽 崇文花园 400 环保 莞式服务，🐍吻，口爆，丝足")
+        self.e4 = tkinter.Entry(frame3, textvariable=addr1, width=50)
+        self.e4.place(x=100, y=20, anchor='w')
+        self.e4.pack(padx=30, pady=2)
 
-        self.l2 = tkinter.Label(frame1, text='登录账号电话')
-        self.l2.place(x=10, y=10, anchor='w', relx=0.2, rely=0.3)
-        self.l2.pack(ipadx=100, ipady=1)
-        self.e2 = tkinter.Entry(frame1)
-        self.e2.place(x=50, y=10, anchor='w')
-        self.e2.pack(padx=10, pady=1)
+        self.b2 = tkinter.Button(frame3, padx=40, pady=2)
+        self.b2.config(text='按键群发')
+        self.b2.config(command=self.group_send_button)
+        self.b2.place(x=1, y=1)
+        self.b2.pack()
 
 
-        self.b1 = tkinter.Button(frame1, padx=40, pady=2)
-        self.b1.config(text='添加登录账号')
-        self.b1.config(command=self.add_login_account)
-        self.b1.place(x=1, y=1)
-        self.b1.pack()
+        frame2 = tkinter.Frame(self.main)
+        frame2.place(x=1, y=10, anchor='w', relx=0.2, rely=0.3)
+        frame2.pack(padx=1, pady=1, side='left')
 
-
-        self.b = tkinter.Button(self.main, padx=40, pady=2)
-        self.b.config(text='群发')
+        self.b = tkinter.Button(frame2, padx=40, pady=2)
+        self.b.config(text='API群发')
         self.b.config(command=self.multiple_send)
         self.b.place(x=1, y=1)
         self.b.pack()
 
-        self.lbox = tkinter.Listbox(self.main)
-        fruits = ['+8618826578873', '+8617827198551', '+8613691724231']
-        for f in fruits:
-            self.lbox.insert('end', f)
-        self.lbox.pack()
+        # self.lbox = tkinter.Listbox(self.main)
+        # fruits = ['+8618826578873', '+8617827198551', '+8613691724231']
+        # for f in fruits:
+        #     self.lbox.insert('end', f)
+        # self.lbox.pack()
+
 
         # self.v = tkinter.IntVar()
         #
@@ -129,15 +162,15 @@ class tkinterUi(object):
         self.ownerlist.append(tkinter.StringVar())
         self.ownerlist.append(tkinter.StringVar())
 
-        c1 = tkinter.Checkbutton(self.main, text='+8618826578873', variable=self.ownerlist[0], onvalue='+8618826578873', offvalue='')
+        c1 = tkinter.Checkbutton(frame2, text='+8618826578873', variable=self.ownerlist[0], onvalue='+8618826578873', offvalue='')
         c1.config(command=self.cbtn_selected)
         c1.pack()
 
-        c2 = tkinter.Checkbutton(self.main, text='+8617827198551', variable=self.ownerlist[1], onvalue='+8617827198551', offvalue='')
+        c2 = tkinter.Checkbutton(frame2, text='+8617827198551', variable=self.ownerlist[1], onvalue='+8617827198551', offvalue='')
         c2.config(command=self.cbtn_selected)
         c2.pack()
 
-        c3 = tkinter.Checkbutton(self.main, text='+8613691724231', variable=self.ownerlist[2], onvalue='+8613691724231', offvalue='')
+        c3 = tkinter.Checkbutton(frame2, text='+8613691724231', variable=self.ownerlist[2], onvalue='+8613691724231', offvalue='')
         c3.config(command=self.cbtn_selected)
         c3.pack()
 
