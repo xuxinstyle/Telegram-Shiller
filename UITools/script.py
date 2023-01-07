@@ -62,7 +62,7 @@ def group_send(path="", message=""):
             print("send message :" + msg + " to " + str(group0()[count]) + " success!")
             count = count + 1
 
-      tkinter.messagebox.showinfo(title='tips', message='send message success!!!')
+      # tkinter.messagebox.showinfo(title='tips', message='send message success!!!')
       print('The script executed successfully. send message '+str(count)+'')
 
 
