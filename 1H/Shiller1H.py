@@ -7,7 +7,7 @@ from telethon.errors import *
 from threading import *
 import asyncio
 from telethon.tl.functions.channels import InviteToChannelRequest
-
+import socks
 
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
@@ -30,8 +30,10 @@ class Shill():
 
     def connection(self):
         loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        self.client = TelegramClient(self.owner, self.t_id, self.t_hash)
+        # asyncio.set_event_loop(loop)
+
+        asyncio.set_event_loop(asyncio.SelectorEventLoop())
+        self.client = TelegramClient(self.owner, self.t_id, self.t_hash, proxy=(socks.SOCKS5, '127.0.0.1', 7890))
         self.client.start()
         print("已登录帐户")
 
@@ -85,13 +87,14 @@ class Shill():
         dialogs = self.client.get_dialogs()
         for dialog in self.client.iter_dialogs():
             friend_info = self.client.get_entity(dialog.title)  # dialog.title为first_name
-            if type(friend_info) is not telethon.tl.types.User:
+            print(type(friend_info))
+            if type(friend_info) == telethon.tl.types.Channel:
                 channel_id = friend_info.id
                 channel_title = friend_info.title
                 channel_username = friend_info.username
                 dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
                                      "channel_username": channel_username}
-                self.GetParticipantsInfo(channel_id)
+                #self.GetParticipantsInfo(channel_id)
 
                 print(dialog.title, "这是一个频道", dict_channel_info)
             else:

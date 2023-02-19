@@ -99,9 +99,9 @@ t3 = Thread(target=id2.account)
 # t5 = Thread(target=id4.account)
 
 
-t1.start()
+#t1.start()
 t2.start()
-t3.start()
+#t3.start()
 #t4.start()
 # t5.start()
 
