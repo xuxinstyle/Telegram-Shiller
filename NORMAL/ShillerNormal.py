@@ -62,7 +62,7 @@ class Shill():
                     self.client.send_message(entity, self.message)
                     print(f"{self.owner}. 帐号发了一条消息。 内容：" + self.message + " to " + str(var))
                     print("________________________________________")
-                    time.sleep(0.5)
+                    time.sleep(3)
                     if (count % 3) == 0 and (self.interval == 1):
                         time.sleep(300)
                         count = 0
@@ -89,7 +89,7 @@ id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551",group
 id1 = Shill("11770907","7d820d4557af57f57ae3c5d40524ce80","+8618826578873",group1,fetch_text(), 0) #Account 1
 id2 = Shill("27791531", "46a50576ec06eb952b322e03f88f0f40", "+8613691724231", group2, fetch_text1(), 1200)
 id3 = Shill("22641341","9bb6137509065c3676a09599407aed2c","+8613923782526",group3,fetch_text2(), 600 ) #Account 3
-# id4 = Shill("","","4",group4) #Account 4
+id4 = Shill("27543213","c5a43c1da4b0e71b5ffc8c79ccc00e","+12142187553",group3,fetch_text2(), 600 ) #Account 3
 
 
 t1 = Thread(target=id0.account)

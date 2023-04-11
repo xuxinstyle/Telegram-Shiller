@@ -1,3 +1,4 @@
+import telethon
 from telethon import TelegramClient, functions, sync, events
 from NORMAL.Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
 import time
@@ -18,10 +19,37 @@ class Shill():
         self.t_id = T_id
         self.t_hash = T_hash
         self.owner = owner
-        self.channel_list = group
+        self.channel_list = []
         self.message = message
         self.pre_time = time
         self.interval = interval
+
+    def initChannel(self):
+        self.connection()
+        file = open("channel.txt", "w")
+        for dialog in self.client.iter_dialogs():
+            friend_info = self.client.get_entity(dialog.title)  # dialog.title为first_name
+            if type(friend_info) == telethon.tl.types.Channel:
+                channel_id = friend_info.id
+                channel_title = friend_info.title
+                channel_username = friend_info.username
+                dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
+                                     "channel_username": channel_username}
+
+                print(dialog.title, "这是一个频道", dict_channel_info)
+                # self.GetParticipantsInfo(channel_id)
+                if channel_username is not None:
+                    channelhttp = "https://t.me/" + channel_username + "\n"
+                    print(channelhttp + "   " + str(len(self.channel_list)))
+
+                    self.channel_list.append(channelhttp)
+
+                    file.write(channelhttp)
+                    file.flush()
+
+        file.close()
+    def printChannel(self):
+        print(self.channel_list)
 
     def connection(self):
         # loop = asyncio.new_event_loop()

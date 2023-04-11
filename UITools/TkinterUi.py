@@ -15,6 +15,8 @@ class tkinterUi(object):
         self.idlist['+8617827198551'] = Shill("20201483", "7b0eeea50868a1744fadc74840f3a16c", "+8617827198551", self.group0, fetch_text(), 2400)
         self.idlist['+8618826578873'] = Shill("11770907", "7d820d4557af57f57ae3c5d40524ce80", "+8618826578873", self.group1, fetch_text(), 0)
         self.idlist['+8613691724231'] = Shill("27791531", "46a50576ec06eb952b322e03f88f0f40", "+8613691724231", self.group2, fetch_text1(), 1200)
+        self.idlist['+8618826578873'].initChannel()
+        self.idlist['+8618826578873'].printChannel()
         # self.id0 = Shill("20201483", "7b0eeea50868a1744fadc74840f3a16c", "+8617827198551", self.group0, fetch_text(), 2400)  # Account 0
         # self.id1 = Shill("11770907", "7d820d4557af57f57ae3c5d40524ce80", "+8618826578873", self.group1, fetch_text(), 0)  # Account 1
         # self.id2 = Shill("27791531", "46a50576ec06eb952b322e03f88f0f40", "+8613691724231", self.group2, fetch_text1(), 1200)

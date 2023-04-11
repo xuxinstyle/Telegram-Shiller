@@ -58,8 +58,9 @@ class Shill():
         all_participants.extend(participants.users)
         channelusers = []
         for par in all_participants:
-            channelusers.append(par.username)
-
+            if par.username is not None:
+                channelusers.append(par.username)
+        print(channelusers)
         self.AddChatUse(self.GetMainChannelid(), channelusers)
 
         for var in self.channel_list:
@@ -74,7 +75,7 @@ class Shill():
 
 
     def GetMainChannelid(self):
-        friend_info = self.client.get_entity("https://t.me/bingxueer66")
+        friend_info = self.client.get_entity("xiuchejiaoliu666")
         if type(friend_info) is not telethon.tl.types.User:
             channel_id = friend_info.id
             channel_title = friend_info.title
@@ -94,9 +95,10 @@ class Shill():
                 channel_username = friend_info.username
                 dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
                                      "channel_username": channel_username}
-                #self.GetParticipantsInfo(channel_id)
+
 
                 print(dialog.title, "这是一个频道", dict_channel_info)
+                self.GetParticipantsInfo(channel_id)
             else:
                 if friend_info.bot is False:
                     user_id = friend_info.id
@@ -144,7 +146,7 @@ class Shill():
     def account(self):
         self.connection()
         self.GetChannelInfo()
-        #self.GetParticipantsInfo()
+        #self.GetParticipantsInfo("")
         # self.join_channel()
         #self.send_message()
 

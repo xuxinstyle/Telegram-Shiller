@@ -18,3 +18,6 @@ There is 2 version of this bot. 1H is 1 Hour bot. It send message every 1hour to
 
 # Authors
 - Umut Can - [linkedin](https://www.linkedin.com/in/umut-can-0a7417157/)
+
+### chatgptapi=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
+Organization ID=org-iXH2nha6c5lygMpCeOyxY72I
