@@ -12,6 +12,7 @@ import socks
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
 from time import sleep
+import socks
 
 offset = 0
 limit = 100
@@ -29,8 +30,7 @@ class Shill():
             self.pre_time = time
 
     def connection(self):
-        loop = asyncio.new_event_loop()
-        # asyncio.set_event_loop(loop)
+
 
         asyncio.set_event_loop(asyncio.SelectorEventLoop())
         self.client = TelegramClient(self.owner, self.t_id, self.t_hash, proxy=(socks.SOCKS5, '127.0.0.1', 7890))
@@ -49,6 +49,7 @@ class Shill():
                 time.sleep(600)
                 continue
         print("参加所有频道.")
+
     def GetParticipantsInfo(self, channel_id):
 
         participants = self.client(GetParticipantsRequest(
@@ -61,7 +62,7 @@ class Shill():
             if par.username is not None:
                 channelusers.append(par.username)
         print(channelusers)
-        self.AddChatUse(self.GetMainChannelid(), channelusers)
+        self.AddChatUse(self.GetMainChannelid(), all_participants)
 
         for var in self.channel_list:
             friend_info = self.client.get_entity(var)  # dialog.title为first_name
