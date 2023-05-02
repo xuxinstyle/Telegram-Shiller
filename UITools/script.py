@@ -10,7 +10,7 @@ import time
 import tkinter
 import tkinter.messagebox
 import os
-from Message import fetch_text, group0, group1, group2, group3,  fetch_text1, fetch_text2
+from Message import fetch_text,  channelslist, fetch_text1, fetch_text2
 pyautogui.FAILSAFE = False
 api_hash = '7d820d4557af57f57ae3c5d40524ce80'
 api_id = '11770907'

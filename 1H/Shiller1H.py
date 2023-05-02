@@ -13,6 +13,7 @@ from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
 from time import sleep
 import socks
+import asyncio
 
 offset = 0
 limit = 100
@@ -85,10 +86,10 @@ class Shill():
                                  "channel_username": channel_username}
             return channel_id
 
-    def GetChannelInfo(self):
-        dialogs = self.client.get_dialogs()
-        for dialog in self.client.iter_dialogs():
-            friend_info = self.client.get_entity(dialog.title)  # dialog.title为first_name
+    async def GetChannelInfo(self):
+        dialogs = await self.client.get_dialogs()
+        for dialog in dialogs:
+            friend_info = await self.client.get_entity(dialog.title)  # dialog.title为first_name
             print(type(friend_info))
             if type(friend_info) == telethon.tl.types.Channel:
                 channel_id = friend_info.id
@@ -97,9 +98,9 @@ class Shill():
                 dict_channel_info = {"channel_id": channel_id, "channel_title": channel_title,
                                      "channel_username": channel_username}
 
-
+                await self.client.send_message(friend_info, "南山 西丽 地铁站B口 400米 60分钟 环保莞式服务，丝足，抓龙筋")
                 print(dialog.title, "这是一个频道", dict_channel_info)
-                self.GetParticipantsInfo(channel_id)
+                # self.GetParticipantsInfo(channel_id)
             else:
                 if friend_info.bot is False:
                     user_id = friend_info.id
@@ -154,8 +155,9 @@ class Shill():
 
 #id0 = Shill("20201483","7b0eeea50868a1744fadc74840f3a16c","+8617827198551") # Telegram account info
 id0 = Shill("11770907","7d820d4557af57f57ae3c5d40524ce80","+8618826578873") #Account 1
-t1 = Thread(target=id0.account)
-
-t1.start()
-
-t1.join()
+target=id0.account()
+# t1 = Thread(target=id0.account)
+#
+# t1.start()
+#
+# t1.join()
