@@ -21,15 +21,16 @@ import os
 
 
 class Shill():
-    def __init__(self, config, id):
+    def __init__(self, config, id, tkinterUi):
         self.m_config = config
         self.m_id = id
         self.ignorechannels={}
+        self.tkinterUi = tkinterUi
         with open("./config/ignore_channel.txt", "r") as file:
             for line in file.readlines():
                 self.ignorechannels[line.strip()] = 1
 
-    def initChannel(self, textbox):
+    def initChannel(self):
         self.connection(self.m_config.get_owner(self.m_id), self.m_config.get_t_id(self.m_id), self.m_config.get_t_hash(self.m_id))
         file = open("./config/"+self.m_config.get_owner(self.m_id)+"_channel.txt", "w")
         file1 = open("./config/channel.txt", "w")
@@ -39,14 +40,13 @@ class Shill():
                 chUsername = dialog.entity.username
                 if dialog.is_group and (not dialog.is_user) and (chUsername is not None):
 
-                    coutMsg = "群组:" + chUsername + "\n"
-                    print(dialog.title, coutMsg)
-                    textbox.insert(tkinter.END, coutMsg)
+                    coutMsg = "群组:" + chUsername
+                    self.tkinterUi.insert_new_line(coutMsg)
 
                     if chUsername is not None:
 
                         channelhttp = chUsername + "\n"
-                        print(channelhttp + "   " + str(len(self.m_config.channel_list)))
+                        self.tkinterUi.insert_new_line(str(len(self.m_config.channel_list)))
 
                         self.m_config.channel_list.append(channelhttp)
 
@@ -56,11 +56,12 @@ class Shill():
                         file.flush()
                         file1.flush()
             except Exception as e:
-                print(e)
+                self.tkinterUi.insert_new_line(e)
 
         file.close()
         file1.close()
-
+        self.tkinterUi.insert_new_line("initChannel success !")
+        self.disconnect()
 
     def connection(self, owner, t_id, t_hash, ip='127.0.0.1', port=7890):
 
@@ -69,7 +70,7 @@ class Shill():
         self.client = TelegramClient(owner, t_id, t_hash, proxy=(socks.SOCKS5, ip, port))
         self.client.start()
 
-        print(f"已登录帐户 {self.m_config.get_owner(self.m_id)} ")
+        self.tkinterUi.insert_new_line(f"已登录帐户 {self.m_config.get_owner(self.m_id)} ")
 
     def disconnect(self):
         self.client.disconnect()
@@ -79,17 +80,18 @@ class Shill():
         for var in self.m_config.channel_list:
             try:
                 result = self.client(functions.channels.JoinChannelRequest(channel=var))
-                print(f"{self.m_config.get_owner(self.m_id)}. 帐户  加入频道 {var}")
-                time.sleep(3)
+                self.tkinterUi.insert_new_line(f"{self.m_config.get_owner(self.m_id)}. 帐户  加入群组 {var}")
+                time.sleep(2)
 
             except Exception as ex:
-                print(ex)
+                self.tkinterUi.insert_new_line(ex)
                 strs = str(ex).split(" ")
-                sleeptime = int(strs[3])
-                print("sleep time :%s s", sleeptime)
-                time.sleep(sleeptime)
+                if len(strs) >= 3 and strs[3].isnumeric():
+                    sleeptime = int(strs[3])
+                    self.tkinterUi.insert_new_line(f"sleep time :{sleeptime} s")
+                    time.sleep(sleeptime)
                 continue
-        print("参加所有频道.")
+        self.tkinterUi.insert_new_line("参加所有频道.")
         self.disconnect()
 
     def send_message(self):
@@ -101,14 +103,14 @@ class Shill():
                 count = count + 1
                 entity = self.client.get_entity(var)
                 self.client.send_message(entity, self.m_config.advertising_message)
-                print(f"{self.m_config.get_owner(self.m_id)}. 帐号发了一条消息。 内容：" + self.m_config.advertising_message(self.m_id) + " to " + str(var))
+                self.tkinterUi.insert_new_line(f"{self.m_config.get_owner(self.m_id)}. 帐号发了一条消息。 内容：" + self.m_config.advertising_message(self.m_id) + " to " + str(var))
                 print("________________________________________")
                 time.sleep(1)
 
             except Exception as ex:
                 print(ex)
                 count = count + 1
-                print(f"{self.m_config.get_owner(self.m_id)}.在 频道:" + str(var) + "  信息发送失败 ")
+                self.tkinterUi.insert_new_line(f"{self.m_config.get_owner(self.m_id)}.在 频道:" + str(var) + "  信息发送失败 ")
                 print("________________________________________")
 
                 time.sleep(1)
@@ -128,13 +130,10 @@ class Shill():
         print("disconnect success !")
 
     def send_by_win(self, text_box):
-        print("open telegram ....")
-
         path = self.m_config.telegram_path(self.m_id)
-        print(path)
-        time.sleep(2)
         os.startfile(path)
-        print("open telegram start!")
+        self.tkinterUi.insert_new_line("open telegram " + path)
+        time.sleep(2)
         count = 0
         for column in self.m_config.channel_list:
             value = self.ignorechannels.get(column.strip())
@@ -148,10 +147,7 @@ class Shill():
             time.sleep(2)
             pyautogui.press('enter')
             time.sleep(2)
-
-
             advertising_message = self.m_config.advertising_message(self.m_id)
-
 
             pyperclip.copy(advertising_message)
             pyautogui.hotkey('ctrl', 'v')
@@ -160,14 +156,12 @@ class Shill():
             pyautogui.press('enter')
             pyautogui.press('esc')
             msg = "send message :" + advertising_message + " to " + column + " success!"
-            text_box.insert(tkinter.END, msg)
-            print(msg)
+            self.tkinterUi.insert_new_line(msg)
             count = count + 1
 
         # tkinter.messagebox.showinfo(title='tips', message='send message success!!!')
         msg = 'The script executed successfully. send message ' + str(count) + '\n'
-        text_box.insert(tkinter.END, msg )
-        print(msg)
+        self.tkinterUi.insert_new_line(msg)
 
 
 

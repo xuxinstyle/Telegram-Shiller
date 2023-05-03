@@ -18,7 +18,7 @@ class tkinterUi(object):
         self.idlist = {}
         self.radio_button={}
         for id in range(0, self.m_tg_config.max_index + 1):
-            self.idlist[id] = Shill(self.m_tg_config, id)
+            self.idlist[id] = Shill(self.m_tg_config, id, self)
 
 
         # self.idlist = {}
@@ -42,16 +42,18 @@ class tkinterUi(object):
     #         print(i)
     #         tkinter.messagebox.showinfo(message=self.lbox.get(i))
 
-    def inichannel(self, text_box):
+    def inichannel(self):
         id = self.radio_var.get()
         myShill = self.idlist[int(id)]
-        my_lambda = lambda: myShill.initChannel(text_box)
+        my_lambda = lambda: myShill.initChannel()
         t1 = Thread(target=my_lambda)
         t1.start()
 
     def addGroup(self):
-        myShill = self.idlist[self.radio_var.get()]
-        t1 = Thread(target=myShill.join_channel)
+
+        myShill = self.idlist[int(self.radio_var.get())]
+        join_channel_lambda = lambda: myShill.join_channel()
+        t1 = Thread(target=join_channel_lambda)
         t1.start()
 
     # def cbtn_selected(self):
@@ -68,12 +70,13 @@ class tkinterUi(object):
     def period_send(self):
 
         nowtime = datetime.datetime.now().strftime('%H%M%S')
-        print("nowtime:"+nowtime)
+        self.text_box.insert(tkinter.END, "nowtime:"+nowtime +"\n")
         period_time = 60 / self.m_tg_config.max_index
         detatime = period_time * 1000 * 60
 
         if int(nowtime) < 13000 or int(nowtime) > 100000:
             self.group_send_button()
+            self.text_box.insert(tkinter.END, "group_send_button\n")
 
         print(detatime)
         print("nowtime" + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -231,20 +234,30 @@ class tkinterUi(object):
     def text_box_join_load_button(self, frame):
         # 创建一个按钮，用于加载频道内容
 
+
         # 创建一个按钮，用于加入频道
         join_button = tkinter.Button(frame, text="加入频道")
         join_button.config(command=self.addGroup)
         join_button.pack()
 
-        my_lambda = lambda: self.inichannel(self.text_box)
+        my_lambda = lambda: self.inichannel()
         load_button = tkinter.Button(frame, text="加载频道内容")
         load_button.config(command=my_lambda)
         load_button.pack()
 
         # 创建一个文本框
         self.text_box = tkinter.Text(frame, height=30, width=50)
-        self.text_box.pack()
+        self.text_box.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
 
-        self.text_box.insert(tkinter.END, "欢迎使用.. \n")
+        scrollbar = tkinter.Scrollbar(frame)
+        scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
+        self.text_box.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.text_box.yview)
 
+        self.insert_new_line("欢迎使用.. ")
+
+    def insert_new_line(self, context):
+        print(context)
+        self.text_box.insert(tkinter.END, str(context)+"\n")
+        self.text_box.see(tkinter.END)
