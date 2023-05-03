@@ -24,7 +24,7 @@ class tg_config():
             self.config_list[index] = cofigs_str  # 调用文件的 readline()方法
             index = index + 1
 
-        self.max_index = index-1
+        self.max_index = index
         f.close()
 
     def period_time(self, id):

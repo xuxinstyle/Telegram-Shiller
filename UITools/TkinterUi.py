@@ -17,7 +17,7 @@ class tkinterUi(object):
         self.m_tg_config = tg_config()
         self.idlist = {}
         self.radio_button={}
-        for id in range(0, self.m_tg_config.max_index + 1):
+        for id in range(0, self.m_tg_config.max_index):
             self.idlist[id] = Shill(self.m_tg_config, id, self)
 
 
@@ -76,10 +76,10 @@ class tkinterUi(object):
 
         if int(nowtime) < 13000 or int(nowtime) > 100000:
             self.group_send_button()
-            self.text_box.insert(tkinter.END, "group_send_button\n")
+            self.insert_new_line("group_send_button")
 
-        print(detatime)
-        print("nowtime" + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        self.insert_new_line("detatime:" + str(detatime))
+        self.insert_new_line("nowtime:" + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         self.main.after(int(detatime), self.period_send)
 
     # def add_login_account(self):
