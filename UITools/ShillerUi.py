@@ -19,7 +19,7 @@ import time
 
 import os
 
-
+pyautogui.FAILSAFE = False
 class Shill():
     def __init__(self, config, id, tkinterUi):
         self.m_config = config
@@ -79,6 +79,9 @@ class Shill():
         self.connection(self.m_config.get_owner(self.m_id), self.m_config.get_t_id(self.m_id), self.m_config.get_t_hash(self.m_id))
         for var in self.m_config.channel_list:
             try:
+                value = self.ignorechannels.get(var.strip())
+                if value:
+                    continue
                 result = self.client(functions.channels.JoinChannelRequest(channel=var))
                 self.tkinterUi.insert_new_line(f"{self.m_config.get_owner(self.m_id)}. 帐户  加入群组 {var}")
                 time.sleep(2)

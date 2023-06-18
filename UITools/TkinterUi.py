@@ -71,7 +71,7 @@ class tkinterUi(object):
 
         nowtime = datetime.datetime.now().strftime('%H%M%S')
         self.text_box.insert(tkinter.END, "nowtime:"+nowtime +"\n")
-        period_time = 60 / self.m_tg_config.max_index
+        period_time = int(self.e_period.get())
         detatime = period_time * 1000 * 60
 
         if int(nowtime) < 13000 or int(nowtime) > 100000:
@@ -153,6 +153,13 @@ class tkinterUi(object):
         self.b3.config(command=self.period_send)
         self.b3.place(x=30, y=30)
         self.b3.pack(padx=3, pady=2)
+
+        period = tkinter.IntVar(value=120)
+        self.e_period = tkinter.Entry(frame_left_right, textvariable=period, width=10)
+        self.e_period.place(x=100, y=20, anchor='w')
+        self.e_period.pack(padx=3, pady=2)
+
+        tkinter.Label(frame_left_right, text='定时周期（单位分钟）').pack()
 
         self.b2 = tkinter.Button(frame_left_right, padx=40, pady=2)
         self.b2.config(text='按键群发')
