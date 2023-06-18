@@ -101,6 +101,8 @@ class tkinterUi(object):
         for shell in self.idlist:
             self.idlist[shell].send_by_win(self.text_box)
 
+    def single_account_send(self):
+       self.idlist[int(self.radio_var.get())].send_by_win(self.text_box)
     # tkinter.messagebox.showinfo(title='tips', message='hello')  # 提示信息对话窗
     # tkinter.messagebox.showwarning(title='tips', message='warning')  # 提出警告对话窗
     # tkinter.messagebox.showerror(title='tips', message='error！')  # 提出错误对话窗
@@ -162,13 +164,16 @@ class tkinterUi(object):
         tkinter.Label(frame_left_right, text='定时周期（单位分钟）').pack()
 
         self.b2 = tkinter.Button(frame_left_right, padx=40, pady=2)
-        self.b2.config(text='按键群发')
+        self.b2.config(text='单次多账号群发')
         self.b2.config(command=self.group_send_button)
         self.b2.place(x=1, y=1)
         self.b2.pack()
 
-
-
+        self.b2 = tkinter.Button(frame_left_right, padx=40, pady=2)
+        self.b2.config(text='单人群发')
+        self.b2.config(command=self.single_account_send)
+        self.b2.place(x=1, y=1)
+        self.b2.pack()
 
 
         self.b = tkinter.Button(frame_left_right, padx=40, pady=2)
